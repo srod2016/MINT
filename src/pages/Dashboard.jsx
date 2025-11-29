@@ -22,19 +22,6 @@ const Dashboard = () => {
 
   return (
     <div style={{ minHeight: '100vh' }}>
-      <header className="header">
-        <div style={{ fontSize: '24px' }}>←</div>
-        <div className="nav-links">
-          <span>Home</span>
-          <span>Expense</span>
-        </div>
-        <div className="header-title">MINT</div>
-        <div className="nav-links">
-          <span>Budget</span>
-          <span>Report</span>
-        </div>
-        <div style={{ width: '30px', height: '30px', background: 'white', borderRadius: '50%' }}></div>
-      </header>
 
       <div className="dashboard-grid">
         

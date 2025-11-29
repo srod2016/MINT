@@ -1,3 +1,3 @@
-export default function Transcations() {
-  return <h1 className="text-2xl font-bold">Transactions</h1>;
+export default function Transactions() {
+  return <h1 className="text-2xl font-bold">Expenses</h1>;
 }

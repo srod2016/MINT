@@ -12,5 +12,6 @@ export default defineConfig({
     host: '127.0.0.1', // Forces IPv4 
     port: 3000,        // Forced port
     strictPort: true,
+    open: true
   }
 })

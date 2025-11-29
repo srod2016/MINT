@@ -8,6 +8,7 @@ import {
 import Layout from "./modules/Layout";
 import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/Transactions";
+import Budget from "./pages/Budget";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 
@@ -27,7 +28,7 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="transactions" element={<Transactions />} />
           <Route path="reports" element={<Reports />} />
-          <Route path="settings" element={<Settings />} />
+          <Route path="budget" element={<Budget />} />
         </Route>
       </Routes>
     </HashRouter>
