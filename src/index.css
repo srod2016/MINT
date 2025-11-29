@@ -1,22 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-/* GLOBAL RESET - Forces the Teal Background from your Design */
+/* --- GLOBAL STYLES --- */
 body, html, #root {
   margin: 0;
   padding: 0;
   height: 100%;
   font-family: 'Poppins', sans-serif;
   background-color: #76D1DF; /* Global Teal */
-  color: #333;
+  color: white;
+  overflow-x: hidden; /* Prevents horizontal scroll */
 }
 
-/* Helper to center the Login Box */
+/* --- LOGIN PAGE STYLES --- */
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #76D1DF;
 }
 
 .login-card {
@@ -27,6 +27,7 @@ body, html, #root {
   max-width: 400px;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  color: #333;
 }
 
 .mint-input {
@@ -50,3 +51,50 @@ body, html, #root {
   margin-top: 10px;
 }
 .mint-btn:hover { background-color: #1A85E0; }
+
+/* --- DASHBOARD & LAYOUT STYLES --- */
+/* This restores the layout from your Adobe XD design */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr; /* 3 Columns */
+  gap: 40px;
+  padding: 40px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.white-card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  color: #131523;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.blue-card {
+  background: linear-gradient(90deg, #68C5DB 0%, #87CEFA 100%);
+  border-radius: 12px;
+  padding: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.text-block {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #1a5c7a; /* Darker teal for readability */
+  text-align: justify;
+  background: rgba(255,255,255,0.1);
+  padding: 20px;
+  border-radius: 12px;
+}
+
+/* Fix for charts overflowing */
+.recharts-responsive-container {
+  width: 100% !important;
+  height: 100% !important;
+}
