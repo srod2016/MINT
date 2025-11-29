@@ -1,62 +1,84 @@
-import React from 'react';
-import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import React, { useState, useEffect } from 'react';
+import { 
+  BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell 
+} from 'recharts';
 
 const Reports = () => {
-  
-  const data1 = [
-    { n: 'M', v: 40 }, { n: 'T', v: 30 }, { n: 'W', v: 20 },
-    { n: 'T', v: 27 }, { n: 'F', v: 18 }, { n: 'S', v: 23 }, { n: 'S', v: 34 },
-  ];
+  // State to hold data from the server
+  const [budgetStatus, setBudgetStatus] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const data2 = [
-    { name: 'A', val: 400, c: '#0088FE' },
-    { name: 'B', val: 300, c: '#00C49F' },
-    { name: 'C', val: 300, c: '#FFBB28' },
+  // Fetch data when page loads
+  useEffect(() => {
+    console.log("Fetching budget data...");
+    
+    fetch('http://localhost:5000/get-budget-status')
+      .then(response => response.json())
+      .then(data => {
+        console.log("Got data from server:", data);
+        setBudgetStatus(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log("Error connecting to server:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  // Data for the charts
+  // If we have data, use it. If not, show 0.
+  const pieData = [
+    { name: 'Spent', value: budgetStatus ? budgetStatus.currentSpending : 0, color: '#2699FB' },
+    { name: 'Remaining', value: 500 - (budgetStatus ? budgetStatus.currentSpending : 0), color: '#ccc' },
   ];
 
   return (
-    <div className="main-container">
-      <center>
-        <h2>REPORT</h2>
-        <p style={{fontSize: '12px', opacity: 0.7}}>Lorem ipsum dolor sit amet</p>
-      </center>
-      <br />
-
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+    <div className="dashboard-grid">
+      
+      {/* 1. STATUS CARD */}
+      <div className="white-card">
+        <h3>Budget Health</h3>
         
-        <div style={{ background: 'rgba(255,255,255,0.2)', padding: '20px', borderRadius: '10px' }}>
-          <h4>Activity</h4>
-          <div style={{ height: '200px' }}>
-            <ResponsiveContainer>
-              <BarChart data={data1}>
-                <XAxis dataKey="n" stroke="#fff" />
-                <Tooltip />
-                <Bar dataKey="v" fill="#fff" />
-              </BarChart>
-            </ResponsiveContainer>
+        {loading ? (
+          <p>Loading database...</p>
+        ) : (
+          <div style={{marginTop: '20px'}}>
+            <h1 style={{
+                color: budgetStatus?.status === 'SAFE' ? '#10B981' : '#EF4444',
+                fontSize: '40px'
+            }}>
+                {budgetStatus?.status || "NO DATA"}
+            </h1>
+            <p>
+                You have spent <b>${budgetStatus?.currentSpending}</b> of your $500 limit.
+            </p>
+            <p>Percentage Used: <b>{budgetStatus?.percentageUsed}%</b></p>
           </div>
-        </div>
+        )}
+      </div>
 
-        <div className="card">
-          <h4>Categories</h4>
-          <div style={{ height: '200px' }}>
-            <ResponsiveContainer>
+      {/* 2. CHART */}
+      <div className="white-card">
+        <h3>Visual Breakdown</h3>
+        <div style={{ height: '300px' }}>
+            <ResponsiveContainer width="100%" height="100%">
               <PieChart>
-                <Pie data={data2} innerRadius={50} outerRadius={70} dataKey="val">
-                  {data2.map((x, i) => (
-                    <Cell key={i} fill={x.c} />
+                <Pie 
+                  data={pieData} 
+                  innerRadius={60} 
+                  outerRadius={80} 
+                  dataKey="value"
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={index} fill={entry.color} />
                   ))}
                 </Pie>
                 <Tooltip />
               </PieChart>
             </ResponsiveContainer>
-          </div>
         </div>
-
       </div>
-      
-      <br/>
-      <button className="my-btn" style={{ background: '#2699FB' }}>Export PDF</button>
+
     </div>
   );
 };
