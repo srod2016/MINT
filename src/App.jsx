@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import Transactions from "./pages/Transactions";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
+import Budget from "./pages/Budget";
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
           {/* index = default child at "/" */}
           <Route index element={<Dashboard />} />
           <Route path="transactions" element={<Transactions />} />
+          <Route path="budget" element={<Budget />} />
           <Route path="reports" element={<Reports />} />
           <Route path="settings" element={<Settings />} />
         </Route>

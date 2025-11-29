@@ -76,3 +76,4 @@ updateBudget(budgetId, limitAmount, alertThreshold) {
   }
 }
 module.exports = BudgetService;
+export default BudgetService;

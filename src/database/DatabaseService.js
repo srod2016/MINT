@@ -65,3 +65,4 @@ class DatabaseService {
 }
 
 module.exports = DatabaseService;
+export default DatabaseService;

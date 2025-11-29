@@ -32,6 +32,15 @@ export default function Layout() {
           </NavLink>
 
           <NavLink
+            to="/budget"
+            className={({ isActive }) =>
+              `${linkBase} ${isActive ? linkActive : ""}`
+            }
+          >
+            Budget
+          </NavLink>
+
+          <NavLink
             to="/reports"
             className={({ isActive }) =>
               `${linkBase} ${isActive ? linkActive : ""}`

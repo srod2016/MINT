@@ -26,5 +26,5 @@ class CalculationService {
     };
   }
 }
-
 module.exports = CalculationService;
+export default CalculationService;
