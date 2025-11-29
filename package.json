@@ -1,10 +1,13 @@
 {
+  "main": "electron/main.js",
   "name": "mint",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"npm:dev:vite\" \"npm:dev:electron\"",
+    "dev:vite": "vite",
+    "dev:electron": "wait-on http://localhost:5173 && electron .",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -27,4 +30,7 @@
     "vite": "^7.2.4",
     "wait-on": "^9.0.3"
   }
+  
 }
+
+
