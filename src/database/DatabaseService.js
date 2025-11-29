@@ -35,6 +35,29 @@ class DatabaseService {
     const stmt = this.db.prepare('SELECT * FROM budgets WHERE budgetId = ?');
     return stmt.get(budgetId);
   }
+  insertExpense(expenseData) {
+    const stmt = this.db.prepare(`
+      INSERT INTO expenses (userId, categoryId, amount, date)
+      VALUES (?, ?, ?, ?)
+    `);
+    const result = stmt.run(
+      expenseData.userId,
+      expenseData.categoryId,
+      expenseData.amount,
+      expenseData.date
+    );
+    return result.lastInsertRowid;
+  }
+
+  getExpensesByCategory(userId, categoryId, startDate, endDate) {
+    const stmt = this.db.prepare(`
+      SELECT * FROM expenses
+      WHERE userId = ? AND categoryId = ?
+        AND date >= ? AND date <= ?
+      ORDER BY date DESC
+    `);
+    return stmt.all(userId, categoryId, startDate, endDate);
+  }
 
   close() {
     this.db.close();

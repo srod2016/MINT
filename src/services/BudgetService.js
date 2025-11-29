@@ -46,6 +46,13 @@ class BudgetService {
       endDate: endDate.toISOString().split('T')[0] 
     };
   }
+  getBudgetStatus(budgetId, expenses) {
+    const budget = this.db.getBudgetById(budgetId);
+    if (!budget) {
+      throw new Error("Budget not found");
+    }
+    return this.calc.calculateBudgetStatus(budget, expenses);
+  }
 }
 
 module.exports = BudgetService;
