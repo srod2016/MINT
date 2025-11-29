@@ -1,59 +1,73 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-body {
+/* --- GLOBAL STYLES --- */
+body, html, #root {
   margin: 0;
+  padding: 0;
+  height: 100%;
   font-family: 'Poppins', sans-serif;
-  background-color: #76D1DF;
+  background-color: #76D1DF; /* Global Teal */
   color: white;
-  overflow-x: hidden;
+  overflow-x: hidden; /* Prevents horizontal scroll */
 }
 
-.header {
-  background-color: #2699FB;
-  height: 60px;
+/* --- LOGIN PAGE STYLES --- */
+.login-container {
   display: flex;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 40px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  height: 100vh;
 }
 
-.header-title {
-  font-size: 24px;
+.login-card {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  color: #333;
+}
+
+.mint-input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.mint-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #2699FB;
+  color: white;
+  border: none;
+  border-radius: 8px;
   font-weight: bold;
-  letter-spacing: 1px;
-}
-
-.nav-links {
-  display: flex;
-  gap: 30px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.nav-links span {
   cursor: pointer;
-  opacity: 0.9;
+  margin-top: 10px;
 }
+.mint-btn:hover { background-color: #1A85E0; }
 
-.nav-links span:hover {
-  opacity: 1;
-  text-decoration: underline;
-}
+/* --- DASHBOARD & LAYOUT STYLES --- */
+/* This restores the layout from your Adobe XD design */
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: 1fr 1.2fr 1fr;
-  gap: 30px;
+  grid-template-columns: 1fr 1.5fr 1fr; /* 3 Columns */
+  gap: 40px;
   padding: 40px;
-  max-width: 1440px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
 .white-card {
   background: white;
   border-radius: 12px;
-  padding: 20px;
+  padding: 25px;
   color: #131523;
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
@@ -61,7 +75,7 @@ body {
 .blue-card {
   background: linear-gradient(90deg, #68C5DB 0%, #87CEFA 100%);
   border-radius: 12px;
-  padding: 20px;
+  padding: 25px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -71,7 +85,16 @@ body {
 
 .text-block {
   font-size: 14px;
-  line-height: 1.6;
-  color: #2E86AB;
+  line-height: 1.8;
+  color: #1a5c7a; /* Darker teal for readability */
   text-align: justify;
+  background: rgba(255,255,255,0.1);
+  padding: 20px;
+  border-radius: 12px;
+}
+
+/* Fix for charts overflowing */
+.recharts-responsive-container {
+  width: 100% !important;
+  height: 100% !important;
 }

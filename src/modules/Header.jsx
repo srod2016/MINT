@@ -23,7 +23,7 @@ export default function Header() {
         </NavLink>
 
         <NavLink
-          to="/transactions"
+          to="/expenses"
           className={({ isActive }) =>
             `${linkBase} ${isActive ? linkActive : ""}`
           }

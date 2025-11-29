@@ -1,40 +1,33 @@
-import './App.css'
-import {
-  HashRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
+import React from 'react';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 
-import Layout from "./modules/Layout";
-import Dashboard from "./pages/Dashboard";
-import Transactions from "./pages/Transactions";
-import Budget from "./pages/Budget";
-import Reports from "./pages/Reports";
-import Settings from "./pages/Settings";
+// Import Pages
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import Expenses from './pages/Expenses';
+import Budget from './pages/Budget';
+import Reports from './pages/Reports';
+import Layout from './modules/Layout';
 
 function App() {
-
   return (
-    <>
-      
-    <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center">
-      <h1 className="text-3xl font-bold">MINT Budget Tracker</h1>
-    </div>
-    
     <HashRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
-          {/* index = default child at "/" */}
-          <Route index element={<Dashboard />} />
-          <Route path="transactions" element={<Transactions />} />
-          <Route path="reports" element={<Reports />} />
-          <Route path="budget" element={<Budget />} />
+        {/* 1. THE STARTING POINT: The Login Page */}
+        {/* This tells React: "When URL is /, show Login" */}
+        <Route path="/" element={<Login />} />
+
+        {/* 2. THE DASHBOARD: Protected by Layout */}
+        {/* This tells React: "When URL is /home, show Layout + Dashboard" */}
+        <Route element={<Layout />}>
+          <Route path="/home" element={<Dashboard />} />
+          <Route path="/expense" element={<Expenses />} />
+          <Route path="/budget" element={<Budget />} />
+          <Route path="/report" element={<Reports />} />
         </Route>
       </Routes>
     </HashRouter>
-
-    </>
-  )
+  );
 }
 
-export default App
+export default App;

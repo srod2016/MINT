@@ -1,11 +1,12 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite' //Connector for Tailwind CSS and Vite, not just tailwind
 
 
 export default defineConfig({
   plugins: [
     react(),
-    // tailwindcss(),  <-- Commented out
+    tailwindcss()
   ],
   server: {
     // Server config issues so I'm forcing IPv4 and a specific port

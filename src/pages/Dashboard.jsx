@@ -21,6 +21,7 @@ const Dashboard = () => {
   ];
 
   return (
+<<<<<<< HEAD
     <div style={{ minHeight: '100vh' }}>
 
       <div className="dashboard-grid">
@@ -33,97 +34,117 @@ const Dashboard = () => {
                 <div style={{ fontWeight: 'bold', color: '#2699FB' }}>Name Surname</div>
                 <div style={{ fontSize: '12px', color: '#B4B4B4' }}>1h ago</div>
               </div>
+=======
+    // Note: No <header> tag here, because Layout handles it!
+    <div className="dashboard-grid">
+      
+      {/* LEFT COLUMN: Notifications & Info */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+        <div className="white-card">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '15px' }}>
+            <div style={{ width: '40px', height: '40px', background: '#2699FB', borderRadius: '50%' }}></div>
+            <div>
+              <div style={{ fontWeight: 'bold', color: '#2699FB' }}>Name Surname</div>
+              <div style={{ fontSize: '12px', color: '#B4B4B4' }}>1h ago</div>
+>>>>>>> main
             </div>
-            <p style={{ fontSize: '12px', color: '#7E84A3' }}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut ero labore et dolore magna aliqua.
-            </p>
           </div>
-
-          <p className="text-block">
-            Culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi ropeior architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.
+          <p style={{ fontSize: '13px', color: '#7E84A3', lineHeight: '1.5' }}>
+            Your budget for "Food" is nearing its limit. Consider reviewing your expenses for the weekend.
           </p>
         </div>
 
-        <div>
-          <div className="blue-card">
-            <div>
-              <div style={{ fontSize: '20px', fontWeight: 'bold' }}>$ 19.99</div>
-              <div style={{ fontSize: '14px' }}>PRODUCT</div>
-            </div>
-            <button style={{ background: 'white', border: 'none', padding: '10px 20px', borderRadius: '4px', color: '#2699FB', fontWeight: 'bold', cursor: 'pointer' }}>
-              LEARN MORE
-            </button>
-          </div>
+        <p className="text-block">
+          Welcome to MINT. This dashboard provides a real-time overview of your financial health. Use the tabs above to manage expenses, set budgets, and generate detailed reports.
+        </p>
+      </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', borderBottom: '1px solid rgba(255,255,255,0.3)', paddingBottom: '10px' }}>
+      {/* CENTER COLUMN: Activity & Main Chart */}
+      <div>
+        <div className="blue-card">
+          <div>
+            <div style={{ fontSize: '24px', fontWeight: 'bold' }}>$ 19.99</div>
+            <div style={{ fontSize: '14px', opacity: 0.9 }}>PRODUCT</div>
+          </div>
+          <button style={{ background: 'white', border: 'none', padding: '10px 25px', borderRadius: '6px', color: '#2699FB', fontWeight: 'bold', cursor: 'pointer' }}>
+            LEARN MORE
+          </button>
+        </div>
+
+        <div style={{ marginBottom: '30px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.3)', padding: '15px 0' }}>
             <div>
               <div style={{ fontSize: '18px', fontWeight: 'bold' }}>$ 49.99</div>
               <div style={{ fontSize: '12px' }}>Finance</div>
             </div>
-            <div style={{ textAlign: 'right', fontSize: '12px' }}>
-              Lorem ipsum dolor sit<br/>amet, consectetur.
+            <div style={{ textAlign: 'right', fontSize: '12px', opacity: 0.8 }}>
+              Subscription Renewed
             </div>
           </div>
-
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '40px', borderBottom: '1px solid rgba(255,255,255,0.3)', paddingBottom: '10px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid rgba(255,255,255,0.3)', padding: '15px 0' }}>
             <div>
               <div style={{ fontSize: '18px', fontWeight: 'bold' }}>$ 99.99</div>
               <div style={{ fontSize: '12px' }}>Movies</div>
             </div>
-            <div style={{ textAlign: 'right', fontSize: '12px' }}>
-              Lorem ipsum dolor sit<br/>amet, consectetur.
+            <div style={{ textAlign: 'right', fontSize: '12px', opacity: 0.8 }}>
+              Ticket Purchase
             </div>
           </div>
+        </div>
 
-          <div className="white-card" style={{ height: '200px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-              <div style={{ fontWeight: 'bold' }}>Total Sales</div>
-              <div style={{ fontSize: '12px', color: '#7E84A3' }}>Last 12 Months ▼</div>
-            </div>
-            <ResponsiveContainer width="100%" height="80%">
+        {/* Line Chart Container */}
+        <div className="white-card" style={{ height: '250px', background: '#1F2937', color: 'white' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
+            <div style={{ fontWeight: 'bold' }}>Total Sales</div>
+            <div style={{ fontSize: '12px', opacity: 0.7 }}>Last 12 Months ▼</div>
+          </div>
+          <div style={{ height: '180px' }}>
+            <ResponsiveContainer width="100%" height="100%">
               <LineChart data={graphData}>
-                <Line type="monotone" dataKey="Online" stroke="#10B981" strokeWidth={2} dot={false} />
-                <Line type="monotone" dataKey="Offline" stroke="#2699FB" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="Online" stroke="#10B981" strokeWidth={3} dot={false} />
+                <Line type="monotone" dataKey="Offline" stroke="#2699FB" strokeWidth={3} dot={false} />
                 <XAxis dataKey="name" hide />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
+      </div>
 
-        <div style={{ textAlign: 'center' }}>
-          <h2 style={{ fontSize: '30px', marginBottom: '20px' }}>Last Month</h2>
-          
-          <div style={{ width: '100%', height: '300px', marginBottom: '20px' }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie 
-                  data={pieData} 
-                  cx="50%" 
-                  cy="50%" 
-                  outerRadius={100} 
-                  dataKey="value"
-                  stroke="none"
-                >
-                  {pieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', textAlign: 'left', fontSize: '12px' }}>
-            {pieData.map((item) => (
-              <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <div style={{ width: '12px', height: '12px', background: item.color }}></div>
-                <span>{item.name}</span>
-              </div>
-            ))}
-          </div>
+      {/* RIGHT COLUMN: Pie Chart */}
+      <div style={{ textAlign: 'center' }}>
+        <h2 style={{ fontSize: '32px', marginBottom: '30px' }}>Last Month</h2>
+        
+        <div style={{ width: '100%', height: '300px', marginBottom: '30px' }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie 
+                data={pieData} 
+                cx="50%" 
+                cy="50%" 
+                innerRadius={0}
+                outerRadius={120} 
+                dataKey="value"
+                stroke="none"
+              >
+                {pieData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
         </div>
 
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', textAlign: 'left', fontSize: '14px' }}>
+          {pieData.map((item) => (
+            <div key={item.name} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ width: '12px', height: '12px', background: item.color, borderRadius: '2px' }}></div>
+              <span>{item.name}</span>
+            </div>
+          ))}
+        </div>
       </div>
+
     </div>
   );
 };
