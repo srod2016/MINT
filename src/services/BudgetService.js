@@ -53,6 +53,26 @@ class BudgetService {
     }
     return this.calc.calculateBudgetStatus(budget, expenses);
   }
-}
 
+updateBudget(budgetId, limitAmount, alertThreshold) {
+    if (limitAmount <= 0) {
+      throw new Error("Budget limit must be positive");
+    }
+    if (alertThreshold < 0 || alertThreshold > 100) {
+      throw new Error("Alert threshold must be between 0 and 100");
+    }
+
+    const stmt = this.db.db.prepare(`
+      UPDATE budgets 
+      SET limitAmount = ?, alertThreshold = ?
+      WHERE budgetId = ?
+    `);
+    return stmt.run(limitAmount, alertThreshold, budgetId);
+  }
+
+  deleteBudget(budgetId) {
+    const stmt = this.db.db.prepare('DELETE FROM budgets WHERE budgetId = ?');
+    return stmt.run(budgetId);
+  }
+}
 module.exports = BudgetService;
