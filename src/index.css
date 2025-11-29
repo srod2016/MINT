@@ -1,77 +1,52 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-body {
+/* GLOBAL RESET - Forces the Teal Background from your Design */
+body, html, #root {
   margin: 0;
+  padding: 0;
+  height: 100%;
   font-family: 'Poppins', sans-serif;
+  background-color: #76D1DF; /* Global Teal */
+  color: #333;
+}
+
+/* Helper to center the Login Box */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   background-color: #76D1DF;
-  color: white;
-  overflow-x: hidden;
 }
 
-.header {
-  background-color: #2699FB;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 40px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.header-title {
-  font-size: 24px;
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-
-.nav-links {
-  display: flex;
-  gap: 30px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.nav-links span {
-  cursor: pointer;
-  opacity: 0.9;
-}
-
-.nav-links span:hover {
-  opacity: 1;
-  text-decoration: underline;
-}
-
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr 1fr;
-  gap: 30px;
+.login-card {
+  background: rgba(255, 255, 255, 0.95);
   padding: 40px;
-  max-width: 1440px;
-  margin: 0 auto;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.white-card {
-  background: white;
-  border-radius: 12px;
-  padding: 20px;
-  color: #131523;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+.mint-input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
 }
 
-.blue-card {
-  background: linear-gradient(90deg, #68C5DB 0%, #87CEFA 100%);
-  border-radius: 12px;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.mint-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #2699FB;
   color: white;
-  margin-bottom: 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
 }
-
-.text-block {
-  font-size: 14px;
-  line-height: 1.6;
-  color: #2E86AB;
-  text-align: justify;
-}
+.mint-btn:hover { background-color: #1A85E0; }

@@ -1,58 +1,51 @@
 import { NavLink, Outlet } from "react-router-dom";
 
 export default function Layout() {
-  const linkBase =
-    "block px-4 py-2 rounded hover:bg-slate-700 transition-colors";
-  const linkActive = "bg-slate-800 font-semibold";
+/* Default fo the nav barrrrr*/
+const linkBase = "text-white opacity-90 hover:opacity-100 hover:underline transition-all text-sm font-medium";
+  const linkActive = "font-bold underline opacity-100";
 
-  return (
-    <div className="min-h-screen flex bg-slate-900 text-slate-100">
-      {/* Sidebar */}
-      <aside className="w-60 bg-slate-950 border-r border-slate-800 p-4">
-        <h1 className="text-xl font-bold mb-4">MINT</h1>
+return (
+    // Main Container - Teal Background per Design Doc
+    <div className="min-h-screen flex flex-col bg-[#76D1DF]">
+      
+      {/* --- TOP HEADER (Replaces Sidebar) --- */}
+      <header className="h-[60px] bg-[#2699FB] flex items-center justify-between px-10 shadow-md">
+        
+        {/* Left: Navigation Group 1 */}
+        <div className="flex gap-8">
+            {/* Using /home for Dashboard as requested */}
+            <NavLink to="/home" className={({ isActive }) => `${linkBase} ${isActive ? linkActive : ""}`}>
+              Home
+            </NavLink>
+            <NavLink to="/expense" className={({ isActive }) => `${linkBase} ${isActive ? linkActive : ""}`}>
+              Expense
+            </NavLink>
+        </div>
 
-        <nav className="space-y-1">
-          <NavLink
-            to="/"
-            end
-            className={({ isActive }) =>
-              `${linkBase} ${isActive ? linkActive : ""}`
-            }
-          >
-            Dashboard
-          </NavLink>
+        {/* Center: Logo */}
+        <div className="text-white text-2xl font-bold tracking-widest">
+          MINT
+        </div>
 
-          <NavLink
-            to="/transactions"
-            className={({ isActive }) =>
-              `${linkBase} ${isActive ? linkActive : ""}`
-            }
-          >
-            Transactions
-          </NavLink>
+        {/* Right: Navigation Group 2 */}
+        <div className="flex gap-8">
+            <NavLink to="/budget" className={({ isActive }) => `${linkBase} ${isActive ? linkActive : ""}`}>
+              Budget
+            </NavLink>
+            <NavLink to="/report" className={({ isActive }) => `${linkBase} ${isActive ? linkActive : ""}`}>
+              Report
+            </NavLink>
+        </div>
 
-          <NavLink
-            to="/reports"
-            className={({ isActive }) =>
-              `${linkBase} ${isActive ? linkActive : ""}`
-            }
-          >
-            Reports
-          </NavLink>
+        {/* User Icon Placeholder */}
+        <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center text-[#2699FB] font-bold text-xs">
+          U
+        </div>
+      </header>
 
-          <NavLink
-            to="/settings"
-            className={({ isActive }) =>
-              `${linkBase} ${isActive ? linkActive : ""}`
-            }
-          >
-            Settings
-          </NavLink>
-        </nav>
-      </aside>
-
-      {/* Main content */}
-      <main className="flex-1 p-6">
+      {/* --- MAIN CONTENT --- */}
+      <main className="flex-1 relative">
         <Outlet />
       </main>
     </div>
