@@ -1,93 +1,56 @@
 import express from 'express';
 import cors from 'cors';
 import { createRequire } from 'module';
+import path from 'path';
 
-// --- FIX FOR REQUIRE ERROR ---
-// Found this online. My teammate used 'require' but I am using 'import'
-// so I have to make a custom require function to load his files.
 const require = createRequire(import.meta.url);
-
-const DatabaseService = require('./src/database/DatabaseService.js');
-const BudgetService = require('./src/services/BudgetService.js');
-const path = require('path');
+const Database = require('better-sqlite3'); // Using direct DB for simpler student demo
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// database path
-const dbPath = path.join(process.cwd(), 'src/database/mint.db'); // Use process.cwd to be safe
-console.log("DB Path:", dbPath);
+// Direct Connection (Easiest for the demo)
+const dbPath = path.join(process.cwd(), 'src/database/mint.db');
+const db = new Database(dbPath);
 
-// Try to connect
-let db;
-let budgetService;
+// --- 1. ROBUST LOGIN ROUTE ---
+app.post('/login', (req, res) => {
+    const { username, password } = req.body;
+    console.log("Login attempt:", username);
 
-try {
-    db = new DatabaseService(dbPath);
-    budgetService = new BudgetService(db);
-    console.log("Database connected!");
-} catch (e) {
-    console.log("DB Error:", e);
-}
+    const user = db.prepare("SELECT * FROM users WHERE username = ? AND password = ?").get(username, password);
 
-// --- API ROUTES ---
-
-// Get budget status for the report page
-app.get('/get-budget-status', (req, res) => {
-    console.log("Frontend wants budget status...");
-
-    try {
-        // Just using ID 1 for the demo
-        const userId = 1; 
-        const budgetId = 1;
-
-        let myBudget = db.getBudgetById(budgetId);
-
-        // If no budget, make a fake one so demo doesn't crash
-        if (!myBudget) {
-            console.log("Making a default budget...");
-            budgetService.createBudget(userId, 1, 500, 'monthly', 80);
-            myBudget = db.getBudgetById(budgetId);
-        }
-
-        // Get the expenses
-        const expenses = db.getExpensesByCategory(userId, 1, myBudget.startDate, myBudget.endDate);
-        
-        // Calculate
-        const status = budgetService.getBudgetStatus(budgetId, expenses);
-        
-        console.log("Status is:", status);
-        res.json(status);
-
-    } catch (err) {
-        console.log("Error getting status:", err);
-        // Send safe fallback data
-        res.json({ status: "SAFE", currentSpending: 0, percentageUsed: 0 });
+    if (user) {
+        res.json({ success: true, userId: user.userId });
+    } else {
+        res.status(401).json({ success: false, message: "Invalid credentials" });
     }
 });
 
-// Add new expense
+// --- 2. GET EXPENSES (For Reports & Graphs) ---
+app.get('/get-expenses', (req, res) => {
+    // Get all expenses to calculate totals per genre (category)
+    const expenses = db.prepare("SELECT * FROM expenses").all();
+    res.json(expenses);
+});
+
+// --- 3. ADD EXPENSE (With Name) ---
 app.post('/add-expense', (req, res) => {
-    console.log("Saving expense:", req.body);
-    
+    console.log("New Expense:", req.body);
     try {
-        // Default to food category (ID 1)
-        const result = db.insertExpense({
-            userId: 1,
-            categoryId: 1, 
-            amount: req.body.amount,
-            date: new Date().toISOString().split('T')[0]
-        });
+        const result = db.prepare(`
+            INSERT INTO expenses (userId, categoryId, amount, date, description) 
+            VALUES (?, ?, ?, ?, ?)
+        `).run(1, req.body.categoryId, req.body.amount, new Date().toISOString().split('T')[0], req.body.description);
         
-        res.json({ success: true, id: result });
-    } catch (err) {
-        console.log(err);
-        res.status(500).send("Failed");
+        res.json({ success: true, id: result.lastInsertRowid });
+    } catch (e) {
+        console.log(e);
+        res.status(500).send("Error");
     }
 });
 
-// Run server
 app.listen(5000, () => {
     console.log("Server running on port 5000");
 });

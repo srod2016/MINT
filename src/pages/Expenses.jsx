@@ -1,35 +1,65 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Expenses = () => {
-  const list = [
-    { id: 1, title: 'Grocery', date: '10/24/2025', price: 45.00, tag: 'Food' },
-    { id: 2, title: 'Uber', date: '10/23/2025', price: 15.00, tag: 'Transport' },
-    { id: 3, title: 'Movies', date: '10/22/2025', price: 20.00, tag: 'Fun' },
-    { id: 4, title: 'FPL', date: '10/20/2025', price: 120.00, tag: 'Bills' },
-  ];
+  const [amount, setAmount] = useState('');
+  const [desc, setDesc] = useState(''); // NEW: Name/Description
+  const [cat, setCat] = useState('1'); 
+
+  const saveExpense = async (e) => {
+    e.preventDefault();
+    
+    await fetch('http://localhost:5000/add-expense', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        amount: parseFloat(amount),
+        description: desc, // Sending the name
+        categoryId: parseInt(cat)
+      })
+    });
+
+    alert("Saved: " + desc);
+    setAmount('');
+    setDesc('');
+  };
 
   return (
-    <div className="main-container">
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <h2>Expenses</h2>
-        <button className="my-btn" style={{ width: '100px' }}>+ New</button>
-      </div>
-
-      <div className="card">
-        {list.map((item) => (
-          <div key={item.id} style={{ borderBottom: '1px solid #eee', padding: '10px', display: 'flex', justifyContent: 'space-between' }}>
-            
-            <div>
-              <div style={{ fontWeight: 'bold' }}>{item.title}</div>
-              <div style={{ fontSize: '11px', color: 'gray' }}>{item.date} - {item.tag}</div>
-            </div>
-
-            <div style={{ color: 'red', fontWeight: 'bold' }}>
-              - ${item.price}
-            </div>
-
+    <div className="mint-container">
+      <div className="white-card">
+        <h3>Add Expense</h3>
+        <form onSubmit={saveExpense} style={{ display: 'flex', gap: '10px', flexWrap:'wrap' }}>
+          
+          {/* NAME FIELD */}
+          <div style={{ flex: 2 }}>
+            <label className="mint-label">Description / Name</label>
+            <input 
+              className="mint-input" 
+              placeholder="e.g. Publix, Uber, Rent"
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
+              required
+            />
           </div>
-        ))}
+
+          <div style={{ flex: 1 }}>
+            <label className="mint-label">Amount</label>
+            <input 
+              className="mint-input" type="number" placeholder="0.00"
+              value={amount} onChange={(e) => setAmount(e.target.value)} required
+            />
+          </div>
+
+          <div style={{ flex: 1 }}>
+            <label className="mint-label">Genre</label>
+            <select className="mint-input" value={cat} onChange={(e) => setCat(e.target.value)}>
+              <option value="1">Food</option>
+              <option value="2">Transport</option>
+              <option value="3">Shopping</option>
+            </select>
+          </div>
+
+          <button className="mint-btn" style={{ width: '100px', height: '46px', alignSelf: 'flex-end' }}>Add</button>
+        </form>
       </div>
     </div>
   );
