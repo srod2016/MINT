@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
+import ExportMenu from '../modules/ExportMenu'; 
 
 const Reports = () => {
   const [expenses, setExpenses] = useState([]);
   const [budgetStatus, setBudgetStatus] = useState(null);
   const [chartData, setChartData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
-    // 1. Get the expenses for the graphs
     fetch('http://localhost:5000/get-expenses')
       .then(res => res.json())
       .then(data => {
         setExpenses(data);
         
-        // Group data for charts (Student logic: just loop and add)
         const grouped = [
             { name: 'Food', value: 0, fill: '#2699FB' },
             { name: 'Transport', value: 0, fill: '#76D1DF' },
@@ -22,7 +21,6 @@ const Reports = () => {
         ];
 
         data.forEach(e => {
-            // Category ID 1=Food, 2=Transport, 3=Shopping
             if(e.categoryId === 1) grouped[0].value += e.amount;
             if(e.categoryId === 2) grouped[1].value += e.amount;
             if(e.categoryId === 3) grouped[2].value += e.amount;
@@ -30,60 +28,49 @@ const Reports = () => {
         setChartData(grouped);
       });
 
-    // 2. Get the status for the "Safe/Warning" box
     fetch('http://localhost:5000/get-budget-status')
       .then(res => res.json())
       .then(status => {
-        console.log("Budget status:", status);
         setBudgetStatus(status);
         setLoading(false);
       })
       .catch(err => {
-        console.log("Backend error:", err);
+        console.log(err);
         setLoading(false);
       });
 
   }, []);
 
-  // CSV Download Function
-  const downloadCSV = () => {
-    console.log("Downloading CSV...");
-    let csv = "Description,Category,Amount,Date\n";
-    expenses.forEach(row => {
-        csv += `${row.description},${row.categoryId},${row.amount},${row.date}\n`;
-    });
-
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = "MINT_Report.csv";
-    a.click();
+  const getCategoryName = (id) => {
+      const names = { 1: 'Food', 2: 'Transport', 3: 'Shopping' };
+      return names[id] || 'Other';
   };
+
+  const formattedData = expenses.map(item => ({
+      Date: item.date,
+      Description: item.description,
+      Category: getCategoryName(item.categoryId),
+      Amount: `$${item.amount.toFixed(2)}`
+  }));
 
   return (
     <div className="mint-container">
       
-      {/* HEADER WITH DOWNLOAD BUTTON */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
         <div>
             <h2 style={{ margin: 0 }}>Financial Report</h2>
             <small style={{ color: '#eee' }}>Overview of November 2025</small>
         </div>
-        <button className="mint-btn" style={{ width: 'auto', background: '#fff', color: '#2699FB' }} onClick={downloadCSV}>
-             Download CSV
-        </button>
+
+        <ExportMenu data={formattedData} filename="MINT_Report" />
+
       </div>
 
-      {/* TOP ROW: STATUS + PIE CHART */}
       <div className="dashboard-grid">
-        
-        {/* 1. BUDGET HEALTH CARD */}
         <div className="white-card">
             <h3>Budget Health</h3>
             {loading ? <p>Loading...</p> : (
                 <div style={{ marginTop: '20px' }}>
-                    {/* The Big Status Word */}
                     <h1 style={{ 
                         fontSize: '48px', 
                         color: budgetStatus?.status === 'SAFE' ? '#10B981' : 
@@ -97,7 +84,6 @@ const Reports = () => {
                         Spent <b>${budgetStatus?.currentSpending}</b> of $500.00 Limit
                     </p>
 
-                    {/* Progress Bar */}
                     <div style={{ width: '100%', height: '10px', background: '#eee', borderRadius: '5px' }}>
                         <div style={{ 
                             height: '100%', 
@@ -114,7 +100,6 @@ const Reports = () => {
             )}
         </div>
 
-        {/* 2. PIE CHART CARD */}
         <div className="white-card">
             <h3>Distribution</h3>
             <div style={{ height: '250px' }}>
@@ -139,7 +124,6 @@ const Reports = () => {
         </div>
       </div>
 
-      {/* BOTTOM ROW: BAR GRAPH (EXPENSES PER GENRE) */}
       <div className="white-card" style={{ marginTop: '30px' }}>
         <h3>Expenses per Genre</h3>
         <div style={{ height: '300px', marginTop: '20px' }}>
